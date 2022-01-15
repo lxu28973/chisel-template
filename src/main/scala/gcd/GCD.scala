@@ -32,3 +32,12 @@ class GCD extends Module {
   io.outputGCD := x
   io.outputValid := y === 0.U
 }
+
+object GCDGen extends App {
+  import chisel3.stage.{ChiselStage, ChiselGeneratorAnnotation}
+
+  // use "--help" to see more options
+  val chiselArgs = Array("-X", "verilog", "-td", "verilog_gen_dir")
+  (new chisel3.stage.ChiselStage).execute(
+    chiselArgs, Seq(ChiselGeneratorAnnotation(() => new GCD)))
+}
