@@ -21,7 +21,7 @@ import chisel3.experimental.BundleLiterals._
 class GCDSpec extends FreeSpec with ChiselScalatestTester {
 
   "Gcd should calculate proper greatest common denominator" in {
-    test(new DecoupledGcd(16)) { dut =>
+    test(new DecoupledGcd()(new GcdConfig)) { dut =>
       dut.input.initSource()
       dut.input.setSourceClock(dut.clock)
       dut.output.initSink()

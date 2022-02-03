@@ -4,6 +4,15 @@ package gcd
 
 import chisel3._
 import chisel3.util.Decoupled
+import agile.config._
+
+case object WordWidth extends Field[Int](32)
+
+class GcdConfig extends Config(
+  (site, here, tail) => {
+    case WordWidth => 16
+  }
+)
 
 class GcdInputBundle(val w: Int) extends Bundle {
   val value1 = UInt(w.W)
@@ -23,7 +32,8 @@ class GcdOutputBundle(val w: Int) extends Bundle {
   * Unless first input is zero then the Gcd is y.
   * Can handle stalls on the producer or consumer side
   */
-class DecoupledGcd(width: Int) extends MultiIOModule {
+class DecoupledGcd(implicit p: Parameters) extends MultiIOModule {
+  val width = p(WordWidth)
   val input = IO(Flipped(Decoupled(new GcdInputBundle(width))))
   val output = IO(Decoupled(new GcdOutputBundle(width)))
 
@@ -78,5 +88,5 @@ object DecoupledGcdGen extends App {
   // use "--help" to see more options
   val chiselArgs = Array("-X", "verilog", "-td", "verilog_gen_dir")
   (new chisel3.stage.ChiselStage).execute(
-    chiselArgs, Seq(ChiselGeneratorAnnotation(() => new DecoupledGcd(4))))
+    chiselArgs, Seq(ChiselGeneratorAnnotation(() => new DecoupledGcd()(new GcdConfig))))
 }
