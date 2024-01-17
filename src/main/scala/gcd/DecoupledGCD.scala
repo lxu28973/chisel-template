@@ -32,7 +32,7 @@ class GcdOutputBundle(val w: Int) extends Bundle {
   * Unless first input is zero then the Gcd is y.
   * Can handle stalls on the producer or consumer side
   */
-class DecoupledGcd(implicit p: Parameters) extends MultiIOModule {
+class DecoupledGcd(implicit p: Parameters) extends Module {
   val width = p(WordWidth)
   val input = IO(Flipped(Decoupled(new GcdInputBundle(width))))
   val output = IO(Decoupled(new GcdOutputBundle(width)))
