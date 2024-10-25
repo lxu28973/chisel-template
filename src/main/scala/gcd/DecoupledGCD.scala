@@ -86,7 +86,7 @@ object DecoupledGcdGen extends App {
   import chisel3.stage.{ChiselStage, ChiselGeneratorAnnotation}
   
   // use "--help" to see more options
-  val chiselArgs = Array("-X", "verilog", "-td", "verilog_gen_dir",
+  val chiselArgs = Array("-X", "verilog", "-td", "verilog_gen_dir", "-e", "verilog",
     "--emission-options", "disableMemRandomization,disableRegisterRandomization")
   (new chisel3.stage.ChiselStage).execute(
     chiselArgs, Seq(ChiselGeneratorAnnotation(() => new DecoupledGcd()(new GcdConfig))))
